@@ -7,22 +7,29 @@ var sharkRouter = module.exports = exports = express.Router();
 
 // getting all the sharks
 sharkRouter.get('/sharks', (req, res) => {
-  Shark.find({}, (err, sharks) => {
-    if(err) {
-      return handleDBError(err, res);
-    }
-    res.status(200).json(shark);
-  });;
+  Shark.find({}, (err, data) => {
+    if(err) return handleDBError(err, res);
+
+    res.status(200).json(data);
+  });
 });
 
 //creating a new shark
 sharkRouter.post('/sharks', jsonParser, (req, res) => {
   var newShark = new Shark(req.body);
-  newShark.save((err, shark) => {
-    if(err) {
-      return handleDBError(err, res);
-    }
-    res.status(200).json({msg: "Shark added"});
+  newShark.save((err, data) => {
+    if(err) return handleDBError(err, res);
+
+    res.status(200).json(data);
+  });
+});
+
+//deletes shark
+sharkRouter.delete('/sharks/:id', (req, res) => {
+  Shark.remove({_id: req.params.id}, (err) =>{
+    if(err) return handleDBError(err, res);
+
+    res.status(200).json({msg: 'success'});
   });
 });
 
@@ -31,19 +38,8 @@ sharkRouter.put('/sharks/:id', jsonParser, (req, res) => {
   var updateShark = req.body;
   delete updateShark._id;
   Shark.update({_id: req.params.id}, updateShark, (err) => {
-    if(err) {
-      return handleDBError(err,res);
-    }
-    res.status(200).json({msg: 'Shark updated'})
-  });
-});
+    if(err) return handleDBError(err, res);
 
-//deletes shark 
-sharkRouter.delete('/sharks/:id', (req, res) => {
-  Shark.remove({_id: req.params.id}, (err) =>{
-    if(err){
-      return handleDBError(err, res);
-    }
-    res.status(200).json({msg: 'Shark has been killed'});
+    res.status(200).json(updateShark)
   });
 });

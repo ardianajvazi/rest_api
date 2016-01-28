@@ -1,11 +1,13 @@
 const express = require('express');
 const app = module.exports = exports = express();
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/sharks');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/test');
+var port = 3000;
 
 const sharksRouter = require(__dirname + '/routes/sharks_routes');
+// const peopleRouter = require(__dirname + '/routes/people_routes');
 
 app.use('/api', sharksRouter);
+// app.use('/api', peopleRouter);
 
-var PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('server up on port: ' + PORT));
+module.exports.server = app.listen(port, () => console.log('Server running ' + port));
