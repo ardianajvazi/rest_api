@@ -50,11 +50,10 @@ describe('the sharks api', () => {
     it('should be able to update a shark', (done) => {
       request(origin)
         .put('/api/sharks/' + this.testShark._id)
-        .send({ name: 'new shark name' })
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
-          expect(res.body.name).to.eql('new shark name');
+          expect(res.body.msg).to.eql('success');
           done();
         });
     });

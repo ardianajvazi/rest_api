@@ -40,6 +40,6 @@ sharkRouter.put('/sharks/:id', jsonParser, (req, res) => {
   Shark.update({_id: req.params.id}, updateShark, (err) => {
     if(err) return handleDBError(err, res);
 
-    res.status(200).json(updateShark)
+    res.status(200).json({msg: 'success'})
   });
 });
